@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Instagram</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-image: url("https://cdn.glitch.global/07d19a57-04d1-41af-b28d-04648bd29b8e/color-colours-festival-hindu-wallpaper-preview.jpg?v=1691894458295");
+                background-size: cover;
+                background-repeat: no-repeat;
+                margin: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+            }
+            .container {
+                text-align: center;
+                background-color: #fff;
+                border-radius: 10px;
+                padding: 20px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                width: 300px;
+            }
+            .container img {
+                width: 300px;
+                margin-bottom: 20px;
+            }
+            form input {
+                display: block;
+                width: 100%;
+                padding: 10px;
+                margin: 10px 0;
+                border: 1px solid #ccc;
+                border-radius: 100px;
+            }
+            form button {
+                background-color: white;
+                color: lightblue;
+                border: 1px #00008b;
+                border-radius: 5px;
+                padding: 10px;
+                width: 100%;
+                cursor: pointer;
+            }
+            form p {
+                margin-top: 15px;
+                font-size: 15px;
+            }
+            form a {
+                color: #3897f0;
+                text-decoration: none;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <img
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcvS_D1cGdFEtDTWBMw8cSbC-009-diqziTw&usqp=CAU"
+                alt="Instagram"
+            />
+            <form id="login-form">
+                <input type="text" id="username" placeholder="Username" />
+                <input type="password" id="password" placeholder="Password" />
+                <button type="submit">Log In</button>
+            </form>
+            <p>Don't have an account?</p>
+            <a href="https://ash-tiny-roof.glitch.me/">Sign up</a>
+        </div>
+
+        <!-- Firebase JS SDK -->
+        <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js"></script>
+
+        <script>
+            // Your web app's Firebase configuration
+            const firebaseConfig = {
+                apiKey: "AIzaSyBizY65gXprXE2izosR3HWQqv-MTW2vFwg",
+                authDomain: "instasignup-details.firebaseapp.com",
+                databaseURL:
+                    "https://instasignup-details-default-rtdb.firebaseio.com",
+                projectId: "instasignup-details",
+                storageBucket: "instasignup-details.appspot.com",
+                messagingSenderId: "642010453378",
+                appId: "1:642010453378:web:efde20a37340350f9f6b9b",
+                measurementId: "G-YJB8VYD5L4",
+            };
+
+            // Initialize Firebase
+            firebase.initializeApp(firebaseConfig);
+
+            const instaloginDB = firebase.database().ref("users");
+
+            document
+                .getElementById("login-form")
+                .addEventListener("submit", Login);
+
+            function Login(e) {
+                e.preventDefault();
+
+                const username = getElementVal("username");
+                const password = getElementVal("password");
+
+                // Retrieve user credentials from Firebase
+                instaloginDB.once("value", function (snapshot) {
+                    const users = snapshot.val();
+                    let found = false;
+
+                    // Check if the entered credentials match any user in the database
+                    for (let key in users) {
+                        if (
+                            users[key].username === username &&
+                            users[key].password === password
+                        ) {
+                            found = true;
+                            break;
+                        }
+                    }
+
+                    console.log("Found user:", found);
+
+                    // Redirect to another page upon successful login
+                    if (found) {
+                        window.location.href =
+                            "https://attractive-cold-carriage.glitch.me/"; // Replace with your desired welcome page URL
+                    } else {
+                        alert("Invalid credentials. Please try again.");
+                    }
+
+                    // Reset the form
+                    document.getElementById("login-form").reset();
+                });
+            }
+
+            function getElementVal(id) {
+                return document.getElementById(id).value;
+            }
+        </script>
+    </body>
+</html>
